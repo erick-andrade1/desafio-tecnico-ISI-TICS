@@ -5,6 +5,8 @@
   "scripts": {
     "start": "npm run start:backend",
     "start:backend": "ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts",
+    "tsc": "tsc",
+    "tsc:check": "npm run tsc -- --noEmit --skipLibCheck",
     "test": "test"
   },
   "repository": {
@@ -13,9 +15,6 @@
   },
   "author": "Erick Veríssimo",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/erick-andrade1/desafio-tecnico-ISI-TICS/issues"
-  },
   "homepage": "https://github.com/erick-andrade1/desafio-tecnico-ISI-TICS#readme",
   "description": "",
   "devDependencies": {
