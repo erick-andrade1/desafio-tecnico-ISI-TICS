@@ -1,10 +1,3 @@
-export interface EntityJson {
-  id: number | null;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
-}
-
 export interface EntityProps {
   id?: number | null;
   createdAt?: Date;
