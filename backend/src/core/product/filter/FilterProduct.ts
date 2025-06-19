@@ -4,7 +4,7 @@ export interface FilterProduct {
   maxPrice?: number | null;
   hasDiscount?: boolean | null;
   sortBy?: string | null;
-  sortOrder?: string | null;
+  sortOrder?: 'asc' | 'desc' | null;
   includeDeleted?: boolean | null;
   onlyOutOfStock?: boolean | null;
   withCouponApplied?: boolean | null;

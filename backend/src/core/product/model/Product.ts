@@ -19,9 +19,7 @@ export class Product extends Entity<ProductProps> {
   readonly description: string;
   readonly price: number;
   readonly stock: number;
-  readonly finalPrice?: number;
   readonly discount?: ProductDiscount;
-  readonly hasCouponApplied?: boolean;
 
   constructor(data: ProductProps) {
     super(data);
