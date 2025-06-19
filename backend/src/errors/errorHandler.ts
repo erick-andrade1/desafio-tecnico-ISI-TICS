@@ -8,7 +8,7 @@ export const errorHandler = (
   err: Error,
   _request: Request,
   response: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   logger.error(err);
   if (err instanceof AppValidationError) {

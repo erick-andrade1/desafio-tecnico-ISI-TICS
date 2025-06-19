@@ -6,7 +6,7 @@ import {
   ResultPaginate,
   FilterProduct,
 } from '../core';
-import { prisma } from '../shared/prisma';
+import { prisma } from '../external/db/prisma';
 import { ProductConverter } from './converters/ProductConverter';
 import type { Prisma } from '../generated/prisma';
 
@@ -14,21 +14,24 @@ import type { Prisma } from '../generated/prisma';
 export class ProductPrismaRepository implements ProductRepository {
   async findAll(filter?: FilterProduct): Promise<Product[]> {
     const where = this.buildFilter(filter ?? {});
-    const products = await prisma.product.findMany({ where });
+    const orderBy = this.buildOrderBy(filter ?? {});
+
+    const products = await prisma.product.findMany({ where, orderBy });
     return products.map(ProductConverter.fromDb);
   }
 
   async paginate(
     filter: FilterPaginate<FilterProduct>,
   ): Promise<ResultPaginate<Product>> {
-    const where = this.buildFilter(filter.filter);
+    const where = this.buildFilter(filter.filter ?? {});
+    const orderBy = this.buildOrderBy(filter.filter ?? {});
     const [count, items] = await prisma.$transaction([
       prisma.product.count({ where }),
       prisma.product.findMany({
         where,
         take: filter.limit,
         skip: filter.limit * filter.page,
-        orderBy: { id: 'desc' },
+        orderBy: orderBy,
       }),
     ]);
 
@@ -80,6 +83,23 @@ export class ProductPrismaRepository implements ProductRepository {
     const where = this.buildFilter(filter);
     const count = await prisma.product.count({ where });
     return count > 0;
+  }
+
+  private buildOrderBy(
+    filter: FilterProduct,
+  ): Prisma.ProductOrderByWithRelationInput {
+    const allowedFields = ['name', 'price', 'created_at', 'stock'] as const;
+
+    const field = filter.sortBy ?? 'created_at';
+    const direction = filter.sortOrder ?? 'desc';
+
+    if (!allowedFields.includes(field as any)) {
+      return { created_at: 'desc' };
+    }
+
+    return {
+      [field]: direction,
+    } as Prisma.ProductOrderByWithRelationInput;
   }
 
   private buildFilter(filter: FilterProduct) {
@@ -168,29 +188,6 @@ export class ProductPrismaRepository implements ProductRepository {
       });
     }
 
-    const ALLOWED_SORT_FIELDS = [
-      'name',
-      'price',
-      'stock',
-      'createdAt',
-      'updatedAt',
-      'id',
-    ] as const;
-
-    type SortField = (typeof ALLOWED_SORT_FIELDS)[number];
-    const sortField: SortField = ALLOWED_SORT_FIELDS.includes(
-      filter.sortBy as SortField,
-    )
-      ? (filter.sortBy as SortField)
-      : 'id';
-
-    const sortOrder: Prisma.SortOrder =
-      filter.sortOrder === 'asc' ? 'asc' : 'desc';
-
-    const orderBy: Prisma.ProductOrderByWithRelationInput = {
-      [sortField]: sortOrder,
-    };
-
-    return { where, orderBy };
+    return where;
   }
 }
