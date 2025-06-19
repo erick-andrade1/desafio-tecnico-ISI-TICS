@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "npm run start:backend",
+    "start:backend": "ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erick-andrade1/desafio-tecnico-ISI-TICS.git"
+  },
+  "author": "Erick Veríssimo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erick-andrade1/desafio-tecnico-ISI-TICS/issues"
+  },
+  "homepage": "https://github.com/erick-andrade1/desafio-tecnico-ISI-TICS#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "express-async-errors": "^3.1.1",
+    "inversify": "^7.5.2",
+    "winston": "^3.17.0",
+    "winston-transport": "^4.9.0",
+    "zod": "^3.25.67"
+  }
+}
