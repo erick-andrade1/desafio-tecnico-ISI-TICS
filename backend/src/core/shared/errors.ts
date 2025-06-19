@@ -7,4 +7,5 @@ export const Errors = {
   PRODUCT_NAME_ALREADY_EXISTS: 'Já existe um produto com esse nome',
   COUPON_NOT_FOUND: 'Cupom não encontrado',
   COUPON_CODE_ALREADY_EXISTS: 'Já existe um cupom com esse código',
+  APPLICATION_NOT_FOUND: 'Aplicação de cupom não encontrada',
 } as const;
