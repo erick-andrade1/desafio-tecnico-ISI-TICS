@@ -1,6 +1,8 @@
 import winston from 'winston';
 import path from 'path';
 
+import { Environment } from './config/Environment';
+
 const logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp(),
@@ -20,5 +22,13 @@ const logger = winston.createLogger({
     }),
   ],
 });
+
+if (!Environment.isProduction()) {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    }),
+  );
+}
 
 export default logger;

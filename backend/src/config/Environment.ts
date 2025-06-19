@@ -7,6 +7,10 @@ export class Environment {
     return Environment.getEnv('DB');
   }
 
+  public static isProduction(): boolean {
+    return Environment.getEnv('NODE_ENV', 'development') === 'production';
+  }
+
   private static getEnv(
     name: string,
     defaultValue: string | null = null,

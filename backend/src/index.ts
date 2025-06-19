@@ -12,8 +12,6 @@ const port = Environment.getPort();
 async function start() {
   const server = http.createServer(app);
 
-  console.log('Opa', port);
-
   server.listen(port, () => logger.info(`Servidor no ar ${port}`));
 }
 
