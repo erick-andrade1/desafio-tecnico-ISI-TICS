@@ -3,6 +3,7 @@ export interface ListProductDTO {
   name: string;
   description: string;
   stock: number;
+  category: string;
   is_out_of_stock: boolean;
   price: number;
   finalPrice: number;

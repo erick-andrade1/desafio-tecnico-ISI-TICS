@@ -9,6 +9,7 @@ export class ProductConverter {
       description: product.description,
       price: product.price,
       stock: product.stock,
+      category: product.category,
       discount: product.discount_type
         ? {
             type: product.discount_type,
@@ -29,6 +30,7 @@ export class ProductConverter {
       description: product.description,
       price: product.price,
       stock: product.stock,
+      category: product.category,
       discount_type: product.discount?.type ?? null,
       discount_value: product.discount?.value ?? null,
       discount_applied_at: product.discount

@@ -88,7 +88,13 @@ export class ProductPrismaRepository implements ProductRepository {
   private buildOrderBy(
     filter: FilterProduct,
   ): Prisma.ProductOrderByWithRelationInput {
-    const allowedFields = ['name', 'price', 'created_at', 'stock'] as const;
+    const allowedFields = [
+      'name',
+      'price',
+      'created_at',
+      'stock',
+      'category',
+    ] as const;
 
     const field = filter.sortBy ?? 'created_at';
     const direction = filter.sortOrder ?? 'desc';

@@ -18,6 +18,7 @@ export class CreateProductUseCase implements UseCase<ProductProps, Product> {
       description: dto.description,
       price: dto.price,
       stock: dto.stock,
+      category: dto.category,
     });
 
     return this.repository.create(product);
