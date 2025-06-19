@@ -12,6 +12,7 @@ import {
 } from '../../core/product/useCases';
 
 import { ProductRepository } from '../../core/product/provider';
+import { ProductPrismaRepository } from '../../repositories';
 
 export function registerProductModule(container: Container): void {
   container.bind(CreateProductUseCase).toSelf();
@@ -22,4 +23,6 @@ export function registerProductModule(container: Container): void {
   container.bind(UpdateProductUseCase).toSelf();
 
   container.bind(FindProductByIdService).toSelf();
+
+  container.bind(ProductRepository).to(ProductPrismaRepository);
 }

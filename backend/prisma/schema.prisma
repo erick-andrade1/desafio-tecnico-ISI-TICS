@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  description         String
+  price               Float
+  stock               Int
+  discount_type       String?
+  discount_value      Float?
+  discount_applied_at DateTime?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  couponApplications ProductCouponApplication[]
+}
+
+model Coupon {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  type        String
+  value       Float
+  one_shot    Boolean
+  max_uses    Int
+  uses_count  Int      @default(0)
+  valid_from  DateTime
+  valid_until DateTime
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  productApplications ProductCouponApplication[]
+}
+
+model ProductCouponApplication {
+  id Int @id @default(autoincrement())
+
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id Int
+
+  coupon    Coupon @relation(fields: [coupon_id], references: [id])
+  coupon_id Int
+
+  applied_at DateTime
+  removed_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
