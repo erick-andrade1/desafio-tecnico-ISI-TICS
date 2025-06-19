@@ -3,15 +3,15 @@ import { Entity, EntityProps } from '../../shared';
 export interface ProductCouponApplicationProps extends EntityProps {
   product_id: number;
   coupon_id: number;
-  applied_at: string;
-  removed_at?: string | null;
+  applied_at: Date;
+  removed_at?: Date | null;
 }
 
 export class ProductCouponApplication extends Entity<ProductCouponApplicationProps> {
   readonly product_id: number;
   readonly coupon_id: number;
-  readonly applied_at: string;
-  readonly removed_at?: string | null;
+  readonly applied_at: Date;
+  readonly removed_at?: Date | null;
 
   constructor(props: ProductCouponApplicationProps) {
     super(props);
