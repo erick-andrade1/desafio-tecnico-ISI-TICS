@@ -19,7 +19,14 @@ export class UpdateCouponUseCase implements UseCase<UpdateCouponDTO, Coupon> {
     let coupon = await this.findCouponByCodeService.execute(dto.code);
 
     coupon = coupon.copyWith({
-      ...dto,
+      type: dto.type,
+      value: dto.value,
+      one_shot: dto.one_shot,
+      max_uses: dto.max_uses,
+      uses_count: dto.uses_count,
+      valid_from: dto.valid_from,
+      valid_until: dto.valid_until,
+      code: coupon.code.getValue(),
     });
 
     await this.repository.update(coupon);

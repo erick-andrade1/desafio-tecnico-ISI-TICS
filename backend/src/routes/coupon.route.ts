@@ -20,13 +20,13 @@ export function createRoute(): AppRouter {
 
   router.get('/paginate', adaptRoute(container.get(PaginateCouponsController)));
 
-  router.get('/:id', adaptRoute(container.get(FindCouponByIdController)));
+  router.get('/:code', adaptRoute(container.get(FindCouponByIdController)));
 
   router.post('/', adaptRoute(container.get(CreateCouponController)));
 
-  router.put('/:id', adaptRoute(container.get(UpdateCouponController)));
+  router.put('/:code', adaptRoute(container.get(UpdateCouponController)));
 
-  router.delete('/:id', adaptRoute(container.get(DeleteCouponController)));
+  router.delete('/:code', adaptRoute(container.get(DeleteCouponController)));
 
   return {
     path: '/coupons',

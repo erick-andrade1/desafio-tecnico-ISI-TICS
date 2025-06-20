@@ -31,6 +31,28 @@ export function createRoute(): AppRouter {
 
   router.delete('/:id', adaptRoute(container.get(DeleteProductController)));
 
+  // router.post(
+  //   '/:id/restore',
+  //   adaptRoute(container.get(RestoreProductController)),
+  // );
+
+  // router.patch('/:id', adaptRoute(container.get(PatchProductController)));
+
+  // router.post(
+  //   '/:id/discount/percent',
+  //   adaptRoute(container.get(ApplyPercentDiscountController)),
+  // );
+
+  // router.post(
+  //   '/:id/discount/coupon',
+  //   adaptRoute(container.get(ApplyCouponDiscountController)),
+  // );
+
+  // router.delete(
+  //   '/:id/discount',
+  //   adaptRoute(container.get(RemoveDiscountController)),
+  // );
+
   return {
     path: '/products',
     router,

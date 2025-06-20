@@ -17,7 +17,7 @@ export class UpdateCouponController implements Controller {
 
     const result = await this.useCase.execute({
       ...data,
-      id: Number(req.params.id),
+      code: req.params.code,
     });
 
     return res.json(createCouponList(result));

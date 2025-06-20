@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { AbstractValidator } from '../AbstractValidator';
 
 const updateCouponSchema = z.object({
-  code: z.string().trim(),
   type: z.string().trim(),
   value: z.number(),
   one_shot: z.boolean(),
