@@ -6,7 +6,6 @@ const createProductSchema = z.object({
   description: z.string(),
   price: z.number(),
   stock: z.number(),
-  category: z.string().trim(),
 });
 
 export type ICreateProduct = z.infer<typeof createProductSchema>;

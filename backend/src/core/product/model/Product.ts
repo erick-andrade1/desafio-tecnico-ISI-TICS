@@ -11,7 +11,6 @@ export interface ProductProps extends EntityProps {
   description: string;
   price: number;
   stock: number;
-  category: string;
   discount?: ProductDiscount;
 }
 
@@ -20,7 +19,6 @@ export class Product extends Entity<ProductProps> {
   readonly description: string;
   readonly price: number;
   readonly stock: number;
-  readonly category: string;
   readonly discount?: ProductDiscount;
 
   constructor(data: ProductProps) {
@@ -28,7 +26,6 @@ export class Product extends Entity<ProductProps> {
     this.name = data.name;
     this.description = data.description;
     this.stock = data.stock;
-    this.category = data.category;
     this.price = data.price;
     this.discount = data.discount;
   }

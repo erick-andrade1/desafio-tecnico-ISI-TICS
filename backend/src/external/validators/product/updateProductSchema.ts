@@ -6,7 +6,6 @@ const updateProductSchema = z.object({
   description: z.string(),
   price: z.number(),
   stock: z.number(),
-  category: z.string().trim(),
 });
 
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;

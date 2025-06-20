@@ -19,7 +19,6 @@ export function ProductsList({ data }: IProps) {
         <TableRow className='p-20'>
           <TableHead>Nome</TableHead>
           <TableHead>Descrição</TableHead>
-          <TableHead>Categoria</TableHead>
           <TableHead>Preço</TableHead>
           <TableHead>Estoque</TableHead>
           <TableHead>Ações</TableHead>
@@ -34,7 +33,6 @@ export function ProductsList({ data }: IProps) {
                 {data.description}
               </p>
             </TableCell>
-            <TableCell>{data.category}</TableCell>
             <TableCell>{data.price}</TableCell>
             <TableCell>{data.stock}</TableCell>
             <TableCell>

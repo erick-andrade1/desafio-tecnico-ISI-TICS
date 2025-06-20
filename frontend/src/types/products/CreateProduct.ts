@@ -3,5 +3,4 @@ export interface ICreateProduct {
   description: string;
   price: number;
   stock: number;
-  category: string;
 }
