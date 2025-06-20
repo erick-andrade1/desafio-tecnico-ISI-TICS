@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router';
 
 import { PATHS } from '@/utils';
 import { Layout } from '@/components';
-import { Products } from '@/pages';
+import { Products, NotFound } from '@/pages';
 
 export const routes = createBrowserRouter([
   {
@@ -14,5 +14,9 @@ export const routes = createBrowserRouter([
       { path: PATHS.PRODUCTS.CREATE_PRODUCTS, Component: Products },
       { path: PATHS.PRODUCTS.UPDATE_PRODUCTS, Component: Products },
     ],
+  },
+  {
+    path: '*',
+    Component: NotFound,
   },
 ]);
