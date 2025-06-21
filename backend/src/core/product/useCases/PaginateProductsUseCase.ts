@@ -33,7 +33,7 @@ export class PaginateProductsUseCase
         price: product.price.getPrice(),
         finalPrice: product.calculateDiscount(),
         discount: product.discount,
-        hasCouponApplied: product.discount ? true : false,
+        hasCouponApplied: product.hasCouponApplied,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
       });

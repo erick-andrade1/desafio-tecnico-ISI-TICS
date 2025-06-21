@@ -3,4 +3,3 @@ export * from './paginate';
 export * from './errors';
 export * from './UseCase';
 export * from './Controller';
-export * from './provider';

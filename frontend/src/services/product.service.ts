@@ -28,26 +28,6 @@ class ProductService {
     return api.get(`${baseURL}/${id}`).then((response) => response.data);
   }
 
-  async getAll(params = {}): Promise<IGetProduct[]> {
-    const stringParams = queryString.stringify(params, {
-      skipNull: true,
-      skipEmptyString: true,
-    });
-    return api
-      .get(`${baseURL}/?${stringParams}`)
-      .then((response) => response.data);
-  }
-
-  async getAllWithMeasure(params = {}): Promise<IGetProduct[]> {
-    const stringParams = queryString.stringify(params, {
-      skipNull: true,
-      skipEmptyString: true,
-    });
-    return api
-      .get(`${baseURL}/with-measure?${stringParams}`)
-      .then((response) => response.data);
-  }
-
   async paginate(
     page = 1,
     params = {},

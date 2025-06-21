@@ -21,6 +21,7 @@ export class CreateProductUseCase implements UseCase<ProductProps, Product> {
       description: dto.description,
       price: dto.price,
       stock: dto.stock,
+      hasCouponApplied: false,
     });
 
     await this.validationService.validate(product);

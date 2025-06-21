@@ -23,6 +23,7 @@ model Product {
   discount_type       String?
   discount_value      Float?
   discount_applied_at DateTime?
+  hasCouponApplied    Boolean
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt

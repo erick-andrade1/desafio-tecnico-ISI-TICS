@@ -1,3 +1,5 @@
+import { ProductDiscount } from '../model';
+
 export interface ListProductDTO {
   id: number;
   name: string;
@@ -6,11 +8,7 @@ export interface ListProductDTO {
   is_out_of_stock: boolean;
   price: number;
   finalPrice: number;
-  discount?: {
-    type: string;
-    value: number;
-    applied_at: string;
-  };
+  discount?: ProductDiscount;
   hasCouponApplied: boolean;
   createdAt: Date;
   updatedAt: Date;

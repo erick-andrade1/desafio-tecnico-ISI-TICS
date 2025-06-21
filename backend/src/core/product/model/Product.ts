@@ -1,11 +1,12 @@
 import { Entity, EntityProps } from '../../shared';
 import { ProductName, ProductPrice } from '../vo';
 import { CouponType } from '../../coupon';
+import { AppValidationError } from '../../../errors';
 
 export interface ProductDiscount {
   type: string;
   value: number;
-  applied_at: string;
+  applied_at: Date;
 }
 
 export interface ProductProps extends EntityProps {
@@ -14,6 +15,7 @@ export interface ProductProps extends EntityProps {
   price: number;
   stock: number;
   discount?: ProductDiscount;
+  hasCouponApplied: boolean;
 }
 
 export class Product extends Entity<ProductProps> {
@@ -22,6 +24,7 @@ export class Product extends Entity<ProductProps> {
   readonly price: ProductPrice;
   readonly stock: number;
   readonly discount?: ProductDiscount;
+  readonly hasCouponApplied: boolean;
 
   constructor(data: ProductProps) {
     super(data);
@@ -30,6 +33,7 @@ export class Product extends Entity<ProductProps> {
     this.stock = data.stock;
     this.price = ProductPrice.create(data.price);
     this.discount = data.discount;
+    this.hasCouponApplied = data.hasCouponApplied;
   }
 
   public calculateDiscount(): number {
@@ -44,5 +48,68 @@ export class Product extends Entity<ProductProps> {
     }
 
     return finalPrice;
+  }
+
+  public validateDiscountApplyance(
+    discountValue: number,
+    discountType: string,
+    isCoupon: boolean = false,
+  ): Product {
+    if (this.discount?.value) {
+      throw new AppValidationError(
+        'Já existe um desconto aplicado a este produto',
+      );
+    }
+
+    const originalPrice = this.price.getPrice();
+    let finalPrice = originalPrice;
+
+    if (isCoupon) {
+      if (discountType === CouponType.FIXED) {
+        finalPrice = originalPrice - discountValue;
+      } else if (discountType === CouponType.PERCENT) {
+        if (discountValue < 1 || discountValue > 100) {
+          throw new AppValidationError(
+            'Cupom percentual deve estar entre 1% e 100%.',
+          );
+        }
+        finalPrice = originalPrice - (originalPrice * discountValue) / 100;
+      } else {
+        throw new AppValidationError('Tipo de cupom inválido.');
+      }
+
+      if (finalPrice < 0.01) {
+        throw new AppValidationError(
+          'O preço final com o cupom não pode ser inferior a R$ 0,01.',
+        );
+      }
+
+      return this.copyWith({
+        discount: {
+          applied_at: new Date(),
+          value: discountValue,
+          type: discountType,
+        },
+        hasCouponApplied: true,
+      });
+    }
+
+    if (discountType === CouponType.PERCENT) {
+      if (discountValue < 1 || discountValue > 80) {
+        throw new AppValidationError(
+          'Desconto direto deve estar entre 1% e 80%.',
+        );
+      }
+
+      return this.copyWith({
+        discount: {
+          applied_at: new Date(),
+          value: discountValue,
+          type: discountType,
+        },
+      });
+    }
+
+    throw new AppValidationError('Tipo de desconto inválido.');
   }
 }

@@ -9,11 +9,12 @@ export class ProductConverter {
       description: product.description,
       price: product.price,
       stock: product.stock,
+      hasCouponApplied: product.hasCouponApplied,
       discount: product.discount_type
         ? {
             type: product.discount_type,
             value: product.discount_value!,
-            applied_at: product.discount_applied_at!.toISOString(),
+            applied_at: new Date(product.discount_applied_at!),
           }
         : undefined,
       createdAt: product.created_at,
@@ -29,6 +30,7 @@ export class ProductConverter {
       description: product.description,
       price: product.price.getPrice(),
       stock: product.stock,
+      hasCouponApplied: product.hasCouponApplied,
       discount_type: product.discount?.type ?? null,
       discount_value: product.discount?.value ?? null,
       discount_applied_at: product.discount

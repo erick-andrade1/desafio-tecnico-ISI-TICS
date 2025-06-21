@@ -1,13 +1,13 @@
 import { productService } from '@/services/product.service';
-import type { IGetProduct } from '@/types';
+import type { IGetProduct, IPaginateResponse } from '@/types';
 import { useEffect, useState } from 'react';
 import { PageHeader, ProductsFilter, ProductsList } from '@/components';
 
 export function Products() {
-  const [data, setData] = useState<IGetProduct[]>([]);
+  const [data, setData] = useState<IPaginateResponse<IGetProduct>>();
 
   useEffect(() => {
-    productService.getAll().then((response) => {
+    productService.paginate().then((response) => {
       setData(response);
     });
   }, []);
@@ -18,7 +18,7 @@ export function Products() {
 
       <ProductsFilter />
 
-      <ProductsList data={data} />
+      {/* <ProductsList data={data!.data} /> */}
     </div>
   );
 }

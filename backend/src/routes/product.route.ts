@@ -6,52 +6,48 @@ import { adaptRoute } from '../adapters/express-router-adapter';
 
 import {
   CreateProductController,
-  DeleteProductController,
-  FindAllProductsController,
+  InactivateProductController,
   FindProductByIdController,
   PaginateProductsController,
   UpdateProductController,
+  RestoreInactiveProductController,
+  RemoveProductDiscountController,
+  ApplyPercentDiscountToProductController,
+  ApplyCouponDiscountToProductController,
 } from '../controllers/product';
 
 export function createRoute(): AppRouter {
   const router = Router();
 
-  router.get('/', adaptRoute(container.get(FindAllProductsController)));
-
-  router.get(
-    '/paginate',
-    adaptRoute(container.get(PaginateProductsController)),
-  );
+  router.get('/', adaptRoute(container.get(PaginateProductsController)));
 
   router.get('/:id', adaptRoute(container.get(FindProductByIdController)));
 
   router.post('/', adaptRoute(container.get(CreateProductController)));
 
-  router.put('/:id', adaptRoute(container.get(UpdateProductController)));
+  router.patch('/:id', adaptRoute(container.get(UpdateProductController)));
 
-  router.delete('/:id', adaptRoute(container.get(DeleteProductController)));
+  router.delete('/:id', adaptRoute(container.get(InactivateProductController)));
 
-  // router.post(
-  //   '/:id/restore',
-  //   adaptRoute(container.get(RestoreProductController)),
-  // );
+  router.post(
+    '/:id/restore',
+    adaptRoute(container.get(RestoreInactiveProductController)),
+  );
 
-  // router.patch('/:id', adaptRoute(container.get(PatchProductController)));
+  router.post(
+    '/:id/discount/percent',
+    adaptRoute(container.get(ApplyPercentDiscountToProductController)),
+  );
 
-  // router.post(
-  //   '/:id/discount/percent',
-  //   adaptRoute(container.get(ApplyPercentDiscountController)),
-  // );
+  router.post(
+    '/:id/discount/coupon',
+    adaptRoute(container.get(ApplyCouponDiscountToProductController)),
+  );
 
-  // router.post(
-  //   '/:id/discount/coupon',
-  //   adaptRoute(container.get(ApplyCouponDiscountController)),
-  // );
-
-  // router.delete(
-  //   '/:id/discount',
-  //   adaptRoute(container.get(RemoveDiscountController)),
-  // );
+  router.delete(
+    '/:id/discount',
+    adaptRoute(container.get(RemoveProductDiscountController)),
+  );
 
   return {
     path: '/products',

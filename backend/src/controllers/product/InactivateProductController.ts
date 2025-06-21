@@ -1,12 +1,13 @@
 import { Response, Request } from 'express';
-import { Controller, DeleteProductUseCase } from '../../core';
+import { Controller, InactivateProductUseCase } from '../../core';
 
 import { inject, injectable } from 'inversify';
 
 @injectable()
-export class DeleteProductController implements Controller {
+export class InactivateProductController implements Controller {
   constructor(
-    @inject(DeleteProductUseCase) readonly useCase: DeleteProductUseCase,
+    @inject(InactivateProductUseCase)
+    readonly useCase: InactivateProductUseCase,
   ) {}
 
   async execute(req: Request, res: Response) {

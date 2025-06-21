@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import { FilterPaginate, ResultPaginate } from '../../shared';
 import { FilterProduct } from '../filter';
 import { Product } from '../model/Product';
+import { ProductCouponApplication } from '../../productCouponApplication';
 
 @injectable()
 export abstract class ProductRepository {
@@ -10,9 +11,16 @@ export abstract class ProductRepository {
     filter: FilterPaginate<FilterProduct>,
   ): Promise<ResultPaginate<Product>>;
   abstract findById(id: number): Promise<Product | null>;
-  abstract create(permission: Product): Promise<Product>;
-  abstract update(permission: Product): Promise<void>;
-  abstract delete(id: number): Promise<void>;
+  abstract create(product: Product): Promise<Product>;
+  abstract update(product: Product): Promise<void>;
+  abstract inactivate(id: number): Promise<void>;
+  abstract activate(id: number): Promise<void>;
   abstract findOneByFilter(filter: FilterProduct): Promise<Product | null>;
   abstract exists(filter: FilterProduct): Promise<boolean>;
+  abstract removeProductDiscountWithCoupon(id: number): Promise<Product>;
+  abstract removeProductDiscount(id: number): Promise<Product>;
+  abstract addCouponToProduct(
+    product: Product,
+    application: ProductCouponApplication,
+  ): Promise<Product>;
 }

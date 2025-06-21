@@ -5,9 +5,13 @@ import {
   Product,
   ResultPaginate,
   FilterProduct,
+  ProductCouponApplication,
 } from '../core';
 import { prisma } from '../external/db/prisma';
-import { ProductConverter } from './converters/ProductConverter';
+import {
+  ProductConverter,
+  ProductCouponApplicationConverter,
+} from './converters';
 import type { Prisma } from '../generated/prisma';
 
 @injectable()
@@ -43,6 +47,62 @@ export class ProductPrismaRepository implements ProductRepository {
     );
   }
 
+  async removeProductDiscountWithCoupon(id: number): Promise<Product> {
+    const [updatedProduct] = await prisma.$transaction([
+      prisma.product.update({
+        where: { id: id },
+        data: {
+          discount_applied_at: null,
+          discount_type: null,
+          discount_value: null,
+          hasCouponApplied: false,
+        },
+      }),
+      prisma.productCouponApplication.updateMany({
+        where: { product_id: id },
+        data: { removed_at: new Date() },
+      }),
+    ]);
+    return ProductConverter.fromDb(updatedProduct);
+  }
+
+  async removeProductDiscount(id: number): Promise<Product> {
+    const updatedProduct = await prisma.product.update({
+      where: { id: id },
+      data: {
+        discount_applied_at: null,
+        discount_type: null,
+        discount_value: null,
+      },
+    });
+
+    return ProductConverter.fromDb(updatedProduct);
+  }
+
+  async addCouponToProduct(
+    product: Product,
+    application: ProductCouponApplication,
+  ): Promise<Product> {
+    const data = ProductCouponApplicationConverter.toDb(application);
+
+    const [updatedProduct] = await prisma.$transaction([
+      prisma.product.update({
+        where: { id: product.id! },
+        data: {
+          discount_applied_at: null,
+          discount_type: null,
+          discount_value: null,
+          hasCouponApplied: false,
+        },
+      }),
+      prisma.productCouponApplication.create({
+        data: data,
+      }),
+    ]);
+
+    return ProductConverter.fromDb(updatedProduct);
+  }
+
   async findById(id: number): Promise<Product | null> {
     const product = await prisma.product.findUnique({
       where: { id: Number(id) },
@@ -64,11 +124,20 @@ export class ProductPrismaRepository implements ProductRepository {
     });
   }
 
-  async delete(id: number): Promise<void> {
+  async inactivate(id: number): Promise<void> {
     await prisma.product.update({
       where: { id },
       data: {
         deleted_at: new Date(),
+      },
+    });
+  }
+
+  async activate(id: number): Promise<void> {
+    await prisma.product.update({
+      where: { id },
+      data: {
+        deleted_at: null,
       },
     });
   }
