@@ -8,11 +8,11 @@ import { Product } from '../model/Product';
 export class FindProductByIdService {
   constructor(
     @inject(ProductRepository)
-    private readonly productRepository: ProductRepository,
+    private readonly repository: ProductRepository,
   ) {}
 
   async execute(id: number): Promise<Product> {
-    const product = await this.productRepository.findById(id);
+    const product = await this.repository.findById(id);
 
     if (!product) {
       throw new AppObjectNotFoundError(Errors.PRODUCT_NOT_FOUND);

@@ -25,9 +25,9 @@ export class ProductConverter {
   static toDb(product: Product): Omit<ProductDb, 'id'> & { id?: number } {
     return {
       id: product.id ? Number(product.id) : undefined,
-      name: product.name,
+      name: product.name.getName(),
       description: product.description,
-      price: product.price,
+      price: product.price.getPrice(),
       stock: product.stock,
       discount_type: product.discount?.type ?? null,
       discount_value: product.discount?.value ?? null,

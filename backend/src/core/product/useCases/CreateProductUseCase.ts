@@ -1,6 +1,7 @@
 import { injectable, inject } from 'inversify';
 import { UseCase } from '../../shared';
 
+import { ValidateProductService } from '../service';
 import { ProductRepository } from '../provider/ProductRepository';
 import { Product, ProductProps } from '../model/Product';
 import { CreateProductDTO } from '../dto';
@@ -10,6 +11,8 @@ export class CreateProductUseCase implements UseCase<ProductProps, Product> {
   constructor(
     @inject(ProductRepository)
     private readonly repository: ProductRepository,
+    @inject(ValidateProductService)
+    private readonly validationService: ValidateProductService,
   ) {}
 
   async execute(dto: CreateProductDTO): Promise<Product> {
@@ -20,10 +23,8 @@ export class CreateProductUseCase implements UseCase<ProductProps, Product> {
       stock: dto.stock,
     });
 
-    return this.repository.create(product);
-  }
+    await this.validationService.validate(product);
 
-  private async validate(dto: CreateProductDTO) {
-    return null;
+    return this.repository.create(product);
   }
 }

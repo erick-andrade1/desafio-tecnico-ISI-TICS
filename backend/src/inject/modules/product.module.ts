@@ -9,7 +9,10 @@ import {
   UpdateProductController,
 } from '../../controllers/product';
 
-import { FindProductByIdService } from '../../core/product/service';
+import {
+  FindProductByIdService,
+  ValidateProductService,
+} from '../../core/product/service';
 
 import {
   CreateProductUseCase,
@@ -39,6 +42,7 @@ export function registerProductModule(container: Container): void {
   container.bind(UpdateProductUseCase).toSelf();
 
   container.bind(FindProductByIdService).toSelf();
+  container.bind(ValidateProductService).toSelf();
 
   container.bind(ProductRepository).to(ProductPrismaRepository);
 }

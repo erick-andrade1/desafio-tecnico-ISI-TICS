@@ -108,6 +108,12 @@ export class ProductPrismaRepository implements ProductRepository {
     };
     const andConditions = where.AND as Prisma.ProductWhereInput[];
 
+    if (filter.name) {
+      andConditions.push({
+        name: filter.name,
+      });
+    }
+
     if (filter.search) {
       const normalized = filter.search
         .normalize('NFD')

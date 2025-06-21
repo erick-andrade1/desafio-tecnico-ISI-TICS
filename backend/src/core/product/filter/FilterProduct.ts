@@ -1,4 +1,6 @@
 export interface FilterProduct {
+  idNotEquals?: number | null;
+  name?: string | null;
   search?: string | null;
   minPrice?: number | null;
   maxPrice?: number | null;

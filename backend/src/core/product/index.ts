@@ -4,3 +4,4 @@ export * from './model';
 export * from './provider';
 export * from './service';
 export * from './useCases';
+export * from './vo';
