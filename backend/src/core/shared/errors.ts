@@ -10,4 +10,5 @@ export const Errors = {
   APPLICATION_NOT_FOUND: 'Aplicação de cupom não encontrada',
   COUPON_USE_NOT_PERMITED: 'O uso desse cupom não é mais permitido',
   COUPON_OUTDATED: 'O uso do cupom expirou',
+  COUPON_EXCEEDED_USAGE: 'O cupom bateu seu limite de uso',
 } as const;

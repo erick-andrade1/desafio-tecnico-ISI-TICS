@@ -36,7 +36,7 @@ export class Coupon extends Entity<CouponProps> {
     this.valid_until = data.valid_until;
   }
 
-  public isCouponValid(): boolean {
+  public isCouponValid() {
     const now = new Date();
 
     const isInValidDateRange =
@@ -50,13 +50,17 @@ export class Coupon extends Entity<CouponProps> {
       throw new AppError(Errors.COUPON_OUTDATED);
     }
 
-    return isNotDeleted && hasRemainingUses;
+    if (!isNotDeleted) {
+      throw new AppValidationError(Errors.COUPON_USE_NOT_PERMITED);
+    }
+
+    if (!hasRemainingUses) {
+      throw new AppValidationError(Errors.COUPON_EXCEEDED_USAGE);
+    }
   }
 
   public useCoupon(): Coupon {
-    if (!this.isCouponValid()) {
-      throw new AppValidationError(Errors.COUPON_USE_NOT_PERMITED);
-    }
+    this.isCouponValid();
 
     return this.copyWith({
       uses_count: this.uses_count + 1,

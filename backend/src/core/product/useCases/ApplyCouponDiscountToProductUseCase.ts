@@ -52,7 +52,7 @@ export class ApplyCouponDiscountToProductUseCase
 
     const updatedProduct = product.validateDiscountApplyance(
       coupon.value.getValue(),
-      CouponType.PERCENT,
+      coupon.type.value,
       true,
     );
 
