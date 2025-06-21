@@ -1,7 +1,7 @@
 import { Entity, EntityProps } from '../../shared';
 import { ProductName, ProductPrice } from '../vo';
 import { CouponType } from '../../coupon';
-import { AppValidationError } from '../../../errors';
+import { AppConflictError, AppValidationError } from '../../../errors';
 
 export interface ProductDiscount {
   type: string;
@@ -56,7 +56,7 @@ export class Product extends Entity<ProductProps> {
     isCoupon: boolean = false,
   ): Product {
     if (this.discount?.value) {
-      throw new AppValidationError(
+      throw new AppConflictError(
         'Já existe um desconto aplicado a este produto',
       );
     }
