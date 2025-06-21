@@ -5,7 +5,12 @@ import { FindProductByIdService } from '../service/FindProductByIdService';
 import { ApplyCouponDiscountToProductDTO } from '../dto';
 import { CouponType, FindCouponByCodeService } from '../../coupon';
 import { Product } from '../model';
-import { ProductCouponApplication } from '../../productCouponApplication';
+import {
+  ProductCouponApplication,
+  FindAllApplicationsService,
+} from '../../productCouponApplication';
+import { AppValidationError } from '../../../errors';
+import { Errors } from '../../shared';
 
 @injectable()
 export class ApplyCouponDiscountToProductUseCase
@@ -18,11 +23,32 @@ export class ApplyCouponDiscountToProductUseCase
     private readonly findProductByIdService: FindProductByIdService,
     @inject(FindCouponByCodeService)
     private readonly findCouponByCodeService: FindCouponByCodeService,
+    @inject(FindAllApplicationsService)
+    private readonly findAllApplicationsService: FindAllApplicationsService,
   ) {}
 
   async execute(dto: ApplyCouponDiscountToProductDTO): Promise<Product> {
     const product = await this.findProductByIdService.execute(dto.id);
     const coupon = await this.findCouponByCodeService.execute(dto.code);
+    const couponApplications = await this.findAllApplicationsService.execute({
+      couponId: coupon.id,
+    });
+    const productApplications = await this.findAllApplicationsService.execute({
+      productId: product.id,
+    });
+
+    const hasActiveApplication = productApplications.some(
+      (application) => !application.removed_at,
+    );
+
+    if (
+      (coupon.one_shot && couponApplications.length > 0) ||
+      hasActiveApplication
+    ) {
+      throw new AppValidationError(Errors.COUPON_USE_NOT_PERMITED);
+    }
+
+    const updatedCouponUse = coupon.useCoupon();
 
     const updatedProduct = product.validateDiscountApplyance(
       coupon.value.getValue(),
@@ -36,11 +62,12 @@ export class ApplyCouponDiscountToProductUseCase
       applied_at: updatedProduct.discount!.applied_at!,
     });
 
-    const productWithCoupon = await this.repository.addCouponToProduct(
+    const productWithDiscount = await this.repository.addCouponToProduct(
       updatedProduct,
       newApplication,
+      updatedCouponUse,
     );
 
-    return productWithCoupon;
+    return productWithDiscount;
   }
 }

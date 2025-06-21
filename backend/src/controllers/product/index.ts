@@ -1,5 +1,5 @@
 export * from './CreateProductController';
-export * from './InactivateProductController';
+export * from './DeactivateProductController';
 export * from './FindProductByIdController';
 export * from './PaginateProductsController';
 export * from './UpdateProductController';

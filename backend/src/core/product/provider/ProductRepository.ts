@@ -3,6 +3,7 @@ import { FilterPaginate, ResultPaginate } from '../../shared';
 import { FilterProduct } from '../filter';
 import { Product } from '../model/Product';
 import { ProductCouponApplication } from '../../productCouponApplication';
+import { Coupon } from '../../coupon';
 
 @injectable()
 export abstract class ProductRepository {
@@ -13,7 +14,7 @@ export abstract class ProductRepository {
   abstract findById(id: number): Promise<Product | null>;
   abstract create(product: Product): Promise<Product>;
   abstract update(product: Product): Promise<void>;
-  abstract inactivate(id: number): Promise<void>;
+  abstract deactivate(id: number): Promise<void>;
   abstract activate(id: number): Promise<void>;
   abstract findOneByFilter(filter: FilterProduct): Promise<Product | null>;
   abstract exists(filter: FilterProduct): Promise<boolean>;
@@ -22,5 +23,6 @@ export abstract class ProductRepository {
   abstract addCouponToProduct(
     product: Product,
     application: ProductCouponApplication,
+    coupon: Coupon,
   ): Promise<Product>;
 }

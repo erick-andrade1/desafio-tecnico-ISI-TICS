@@ -4,7 +4,7 @@ import { UseCase } from '../../shared/UseCase';
 import { FindProductByIdService } from '../service/FindProductByIdService';
 
 @injectable()
-export class InactivateProductUseCase implements UseCase<number, void> {
+export class DeactivateProductUseCase implements UseCase<number, void> {
   constructor(
     @inject(ProductRepository)
     private readonly repository: ProductRepository,
@@ -14,6 +14,6 @@ export class InactivateProductUseCase implements UseCase<number, void> {
 
   async execute(id: number): Promise<void> {
     const product = await this.findProductByIdService.execute(id);
-    await this.repository.inactivate(id);
+    await this.repository.deactivate(id);
   }
 }

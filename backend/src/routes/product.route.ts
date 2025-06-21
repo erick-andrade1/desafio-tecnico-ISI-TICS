@@ -6,7 +6,7 @@ import { adaptRoute } from '../adapters/express-router-adapter';
 
 import {
   CreateProductController,
-  InactivateProductController,
+  DeactivateProductController,
   FindProductByIdController,
   PaginateProductsController,
   UpdateProductController,
@@ -27,7 +27,7 @@ export function createRoute(): AppRouter {
 
   router.patch('/:id', adaptRoute(container.get(UpdateProductController)));
 
-  router.delete('/:id', adaptRoute(container.get(InactivateProductController)));
+  router.delete('/:id', adaptRoute(container.get(DeactivateProductController)));
 
   router.post(
     '/:id/restore',

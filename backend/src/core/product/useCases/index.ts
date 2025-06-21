@@ -1,5 +1,5 @@
 export * from './CreateProductUseCase';
-export * from './InactivateProductUseCase';
+export * from './DeactivateProductUseCase';
 export * from './UpdateProductUseCase';
 export * from './PaginateProductsUseCase';
 export * from './FindProductByIdUseCase';

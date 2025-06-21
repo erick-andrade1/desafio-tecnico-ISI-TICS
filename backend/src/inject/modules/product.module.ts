@@ -2,7 +2,7 @@ import { Container } from 'inversify';
 
 import {
   CreateProductController,
-  InactivateProductController,
+  DeactivateProductController,
   FindProductByIdController,
   PaginateProductsController,
   UpdateProductController,
@@ -19,7 +19,7 @@ import {
 
 import {
   CreateProductUseCase,
-  InactivateProductUseCase,
+  DeactivateProductUseCase,
   FindProductByIdUseCase,
   PaginateProductsUseCase,
   UpdateProductUseCase,
@@ -34,7 +34,7 @@ import { ProductPrismaRepository } from '../../repositories';
 
 export function registerProductModule(container: Container): void {
   container.bind(CreateProductController).toSelf();
-  container.bind(InactivateProductController).toSelf();
+  container.bind(DeactivateProductController).toSelf();
   container.bind(FindProductByIdController).toSelf();
   container.bind(UpdateProductController).toSelf();
   container.bind(PaginateProductsController).toSelf();
@@ -44,7 +44,7 @@ export function registerProductModule(container: Container): void {
   container.bind(ApplyCouponDiscountToProductController).toSelf();
 
   container.bind(CreateProductUseCase).toSelf();
-  container.bind(InactivateProductUseCase).toSelf();
+  container.bind(DeactivateProductUseCase).toSelf();
   container.bind(PaginateProductsUseCase).toSelf();
   container.bind(FindProductByIdUseCase).toSelf();
   container.bind(UpdateProductUseCase).toSelf();

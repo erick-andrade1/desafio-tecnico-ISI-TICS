@@ -8,4 +8,6 @@ export const Errors = {
   COUPON_NOT_FOUND: 'Cupom não encontrado',
   COUPON_CODE_ALREADY_EXISTS: 'Já existe um cupom com esse código',
   APPLICATION_NOT_FOUND: 'Aplicação de cupom não encontrada',
+  COUPON_USE_NOT_PERMITED: 'O uso desse cupom não é mais permitido',
+  COUPON_OUTDATED: 'O uso do cupom expirou',
 } as const;

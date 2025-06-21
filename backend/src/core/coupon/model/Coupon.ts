@@ -1,4 +1,6 @@
-import { Entity, EntityProps } from '../../shared';
+import AppError from 'errors/AppError';
+import { AppValidationError } from '../../../errors';
+import { Entity, EntityProps, Errors } from '../../shared';
 import { CouponType, CouponCode, CouponValue } from '../vo';
 
 export interface CouponProps extends EntityProps {
@@ -32,5 +34,32 @@ export class Coupon extends Entity<CouponProps> {
     this.uses_count = data.uses_count;
     this.valid_from = data.valid_from;
     this.valid_until = data.valid_until;
+  }
+
+  public isCouponValid(): boolean {
+    const now = new Date();
+
+    const isInValidDateRange =
+      now >= this.valid_from && now <= this.valid_until;
+    const isNotDeleted = !this.deletedAt;
+    const hasRemainingUses = this.one_shot
+      ? this.uses_count === 0
+      : this.uses_count < this.max_uses;
+
+    if (!isInValidDateRange) {
+      throw new AppError(Errors.COUPON_OUTDATED);
+    }
+
+    return isNotDeleted && hasRemainingUses;
+  }
+
+  public useCoupon(): Coupon {
+    if (!this.isCouponValid()) {
+      throw new AppValidationError(Errors.COUPON_USE_NOT_PERMITED);
+    }
+
+    return this.copyWith({
+      uses_count: this.uses_count + 1,
+    });
   }
 }

@@ -1,6 +1,9 @@
 import { Container } from 'inversify';
 
-import { FindApplicationByCouponAndProductService } from '../../core/productCouponApplication/service';
+import {
+  FindApplicationByCouponAndProductService,
+  FindAllApplicationsService,
+} from '../../core/productCouponApplication/service';
 
 import {
   CreateProductCouponApplicationUseCase,
@@ -23,6 +26,7 @@ export function registerProductCouponApplicationsModule(
   container.bind(DeleteProductCouponApplicationUseCase).toSelf();
 
   container.bind(FindApplicationByCouponAndProductService).toSelf();
+  container.bind(FindAllApplicationsService).toSelf();
 
   container
     .bind(ProductCouponApplicationRepository)

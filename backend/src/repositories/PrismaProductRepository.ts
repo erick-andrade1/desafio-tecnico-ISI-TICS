@@ -6,11 +6,13 @@ import {
   ResultPaginate,
   FilterProduct,
   ProductCouponApplication,
+  Coupon,
 } from '../core';
 import { prisma } from '../external/db/prisma';
 import {
   ProductConverter,
   ProductCouponApplicationConverter,
+  CouponConverter,
 } from './converters';
 import type { Prisma } from '../generated/prisma';
 
@@ -82,8 +84,10 @@ export class ProductPrismaRepository implements ProductRepository {
   async addCouponToProduct(
     product: Product,
     application: ProductCouponApplication,
+    coupon: Coupon,
   ): Promise<Product> {
-    const data = ProductCouponApplicationConverter.toDb(application);
+    const newApplication = ProductCouponApplicationConverter.toDb(application);
+    const newCoupon = CouponConverter.toDb(coupon);
 
     const [updatedProduct] = await prisma.$transaction([
       prisma.product.update({
@@ -95,8 +99,12 @@ export class ProductPrismaRepository implements ProductRepository {
           hasCouponApplied: false,
         },
       }),
+      prisma.coupon.update({
+        where: { id: newCoupon.id! },
+        data: newCoupon,
+      }),
       prisma.productCouponApplication.create({
-        data: data,
+        data: newApplication,
       }),
     ]);
 
@@ -124,7 +132,7 @@ export class ProductPrismaRepository implements ProductRepository {
     });
   }
 
-  async inactivate(id: number): Promise<void> {
+  async deactivate(id: number): Promise<void> {
     await prisma.product.update({
       where: { id },
       data: {
