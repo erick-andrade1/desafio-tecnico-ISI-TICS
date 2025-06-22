@@ -1,3 +1,5 @@
+import type { IProductDiscount } from './ProductDiscount';
+
 export interface IGetProduct {
   id: number;
   name: string;
@@ -6,12 +8,9 @@ export interface IGetProduct {
   is_out_of_stock: boolean;
   price: number;
   finalPrice: number;
-  discount: {
-    type: string;
-    value: number;
-    applied_at: string;
-  };
+  discount?: IProductDiscount;
   hasCouponApplied: boolean;
   createdAt: Date;
   updatedAt: Date;
+  deletedAt: Date | null;
 }

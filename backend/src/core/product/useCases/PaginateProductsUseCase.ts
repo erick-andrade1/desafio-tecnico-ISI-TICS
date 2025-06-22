@@ -36,6 +36,7 @@ export class PaginateProductsUseCase
         hasCouponApplied: product.hasCouponApplied,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
+        deletedAt: product.deletedAt,
       });
     }
 

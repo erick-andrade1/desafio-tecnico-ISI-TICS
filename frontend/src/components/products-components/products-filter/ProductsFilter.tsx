@@ -1,6 +1,10 @@
 import { Input, Label, Button } from '@/components';
+import { PATHS } from '@/utils';
+import { useNavigate } from 'react-router';
 
 export function ProductsFilter() {
+  const navigate = useNavigate();
+
   return (
     <div className='flex xs:flex-col md:flex-row justify-between align-bottom gap-4'>
       <div className='flex gap-6 align-bottom items-end'>
@@ -36,7 +40,10 @@ export function ProductsFilter() {
           placeholder='Buscar produto'
         />
 
-        <Button className='h-11'>
+        <Button
+          className='h-11'
+          onClick={() => navigate(PATHS.PRODUCTS.CREATE_PRODUCTS)}
+        >
           <span className='material-symbols-outlined'>add</span>
           Criar produto
         </Button>

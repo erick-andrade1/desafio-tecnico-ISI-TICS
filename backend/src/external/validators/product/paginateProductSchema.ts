@@ -1,19 +1,25 @@
 import { z } from 'zod';
 import { AbstractValidator } from '../AbstractValidator';
-import { limitQuery, optionalString, pageQuery } from '../shared';
+import {
+  limitQuery,
+  optionalBooleanString,
+  optionalNumberString,
+  optionalString,
+  pageQuery,
+} from '../shared';
 
 const paginateProductSchema = z.object({
   page: pageQuery(),
   limit: limitQuery(),
   search: optionalString(),
-  minPrice: z.number().positive().optional().nullable(),
-  maxPrice: z.number().positive().optional().nullable(),
-  hasDiscount: z.boolean().optional().nullable(),
+  minPrice: optionalNumberString(),
+  maxPrice: optionalNumberString(),
+  hasDiscount: optionalBooleanString(),
   sortBy: optionalString(),
   sortOrder: z.enum(['asc', 'desc']).optional().nullable(),
-  includeDeleted: z.boolean().optional().nullable(),
-  onlyOutOfStock: z.boolean().optional().nullable(),
-  withCouponApplied: z.boolean().optional().nullable(),
+  includeDeleted: optionalBooleanString(),
+  onlyOutOfStock: optionalBooleanString(),
+  withCouponApplied: optionalBooleanString(),
 });
 
 export type IPaginateProduct = z.infer<typeof paginateProductSchema>;

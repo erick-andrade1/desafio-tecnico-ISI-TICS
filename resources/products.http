@@ -1,8 +1,22 @@
 ## URL BASE PARA ACESSO A PRODUTOS
 @baseUrl = http://localhost:8000/api/products
 
+## FILTROS POSSÍVEIS:
+
+#  idNotEquals?: number | null;
+#  name?: string | null;
+#  search?: string | null;
+#  minPrice?: number | null;
+#  maxPrice?: number | null;
+#  hasDiscount?: boolean | null;
+#  sortBy?: string | null;
+#  sortOrder?: 'asc' | 'desc' | null;
+#  includeDeleted?: boolean | null;
+#  onlyOutOfStock?: boolean | null;
+#  withCouponApplied?: boolean | null;
+
 ### LISTAR (com query string para filtros)
-GET {{baseUrl}}/?page=1 HTTP/1.1
+GET {{baseUrl}}/?page=1&search=gas HTTP/1.1
 
 ### CONSULTAR PRODUTO POR ID
 GET {{baseUrl}}/2 HTTP/1.1

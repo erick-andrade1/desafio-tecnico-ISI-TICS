@@ -16,32 +16,53 @@ class ProductService {
 
   async update(data: IUpdateProduct) {
     return api
-      .put(`${baseURL}/${data.id}`, data)
+      .patch(`${baseURL}/${data.id}`, data)
       .then((response) => response.data);
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     return api.delete(`${baseURL}/${id}`).then((response) => response.data);
   }
 
-  async getById(id: string): Promise<IGetProduct> {
+  async getById(id: number): Promise<IGetProduct> {
     return api.get(`${baseURL}/${id}`).then((response) => response.data);
   }
 
   async paginate(
     page = 1,
+    limit = 10,
     params = {},
   ): Promise<IPaginateResponse<IGetProduct>> {
     const stringParams = queryString.stringify(
-      { page, limit: 15, ...params },
+      { page, limit, ...params },
       {
         skipNull: true,
         skipEmptyString: true,
       },
     );
     return api
-      .get(`${baseURL}/paginate/?${stringParams}`)
+      .get(`${baseURL}/?${stringParams}`)
       .then((response) => response.data);
+  }
+
+  async restore(id: number) {
+    return api.post(`${baseURL}/${id}/restore`).then((res) => res.data);
+  }
+
+  async applyPercentDiscount(id: number, discountValue: number) {
+    return api
+      .post(`${baseURL}/${id}/discount/percent`, { discountValue })
+      .then((res) => res.data);
+  }
+
+  async applyCouponDiscount(id: number, code: string) {
+    return api
+      .post(`${baseURL}/${id}/discount/coupon`, { code })
+      .then((res) => res.data);
+  }
+
+  async removeDiscount(id: number) {
+    return api.delete(`${baseURL}/${id}/discount`).then((res) => res.data);
   }
 }
 

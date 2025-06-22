@@ -197,19 +197,16 @@ export class ProductPrismaRepository implements ProductRepository {
     }
 
     if (filter.search) {
-      const normalized = filter.search
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '');
       andConditions.push({
         OR: [
           {
             name: {
-              contains: normalized,
+              contains: filter.search,
             },
           },
           {
             description: {
-              contains: normalized,
+              contains: filter.search,
             },
           },
         ],
