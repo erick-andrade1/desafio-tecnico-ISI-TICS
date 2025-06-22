@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../shared';
+import { Entity, EntityProps, Errors } from '../../shared';
 import { ProductName, ProductPrice } from '../vo';
 import { CouponType } from '../../coupon';
 import { AppConflictError, AppValidationError } from '../../../errors';
@@ -56,9 +56,11 @@ export class Product extends Entity<ProductProps> {
     isCoupon: boolean = false,
   ): Product {
     if (this.discount?.value) {
-      throw new AppConflictError(
-        'Já existe um desconto aplicado a este produto',
-      );
+      throw new AppConflictError(Errors.DISCOUNT_ALREADY_APPLIED);
+    }
+
+    if (!CouponType.values.includes(discountType)) {
+      throw new AppValidationError(Errors.PRODUCT_DISCOUNT_INVALID);
     }
 
     const originalPrice = this.price.getPrice();
@@ -68,20 +70,11 @@ export class Product extends Entity<ProductProps> {
       if (discountType === CouponType.FIXED) {
         finalPrice = originalPrice - discountValue;
       } else if (discountType === CouponType.PERCENT) {
-        if (discountValue < 1 || discountValue > 100) {
-          throw new AppValidationError(
-            'Cupom percentual deve estar entre 1% e 100%.',
-          );
-        }
         finalPrice = originalPrice - (originalPrice * discountValue) / 100;
-      } else {
-        throw new AppValidationError('Tipo de cupom inválido.');
       }
 
       if (finalPrice < 0.01) {
-        throw new AppValidationError(
-          'O preço final com o cupom não pode ser inferior a R$ 0,01.',
-        );
+        throw new AppValidationError(Errors.PRODUCT_FORBIDDEN_FINAL_PRICE);
       }
 
       return this.copyWith({
@@ -96,9 +89,7 @@ export class Product extends Entity<ProductProps> {
 
     if (discountType === CouponType.PERCENT) {
       if (discountValue < 1 || discountValue > 80) {
-        throw new AppValidationError(
-          'Desconto direto deve estar entre 1% e 80%.',
-        );
+        throw new AppValidationError(Errors.PRODUCT_FORBIDDEN_DISCOUNT_PERCENT);
       }
 
       return this.copyWith({
@@ -110,7 +101,7 @@ export class Product extends Entity<ProductProps> {
       });
     }
 
-    throw new AppValidationError('Tipo de desconto inválido.');
+    throw new AppValidationError(Errors.PRODUCT_DISCOUNT_INVALID);
   }
 
   copyWith(props: Partial<ProductProps>) {

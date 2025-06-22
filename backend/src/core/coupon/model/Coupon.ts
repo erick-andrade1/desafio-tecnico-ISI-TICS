@@ -34,6 +34,8 @@ export class Coupon extends Entity<CouponProps> {
     this.uses_count = data.uses_count;
     this.valid_from = data.valid_from;
     this.valid_until = data.valid_until;
+
+    this.validateCouponDates();
   }
 
   public isCouponValid() {
@@ -73,6 +75,19 @@ export class Coupon extends Entity<CouponProps> {
       uses_count: uses_count,
       deletedAt: deletedAt,
     });
+  }
+
+  private validateCouponDates() {
+    if (this.valid_from >= this.valid_until) {
+      throw new AppValidationError(Errors.COUPON_INVALID_FROM_DATE);
+    }
+
+    const maxValidUntil = new Date(this.valid_from);
+    maxValidUntil.setFullYear(maxValidUntil.getFullYear() + 5);
+
+    if (this.valid_until > maxValidUntil) {
+      throw new AppValidationError(Errors.COUPON_INVALID_UNTIL_DATE);
+    }
   }
 
   copyWith(props: Partial<CouponProps>) {
