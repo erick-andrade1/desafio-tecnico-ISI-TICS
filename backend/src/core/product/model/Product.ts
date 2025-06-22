@@ -112,4 +112,21 @@ export class Product extends Entity<ProductProps> {
 
     throw new AppValidationError('Tipo de desconto inválido.');
   }
+
+  copyWith(props: Partial<ProductProps>) {
+    const product = new Product({
+      id: props.id ?? this.id,
+      name: props.name ?? this.name.getName(),
+      description: props.description ?? this.description,
+      price: props.price ?? this.price.getPrice(),
+      stock: props.stock ?? this.stock,
+      discount: props.discount ?? this.discount,
+      hasCouponApplied: props.hasCouponApplied ?? this.hasCouponApplied,
+      createdAt: props.createdAt ?? this.createdAt,
+      updatedAt: props.updatedAt ?? this.updatedAt,
+      deletedAt: props.deletedAt ?? this.deletedAt,
+    });
+
+    return product;
+  }
 }

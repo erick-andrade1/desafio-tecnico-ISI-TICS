@@ -1,9 +1,10 @@
 import { injectable, inject } from 'inversify';
-import { UseCase } from '../../shared';
+import { Errors, UseCase } from '../../shared';
 
 import { CouponRepository } from '../provider/CouponRepository';
 import { Coupon, CouponProps } from '../model/Coupon';
 import { CreateCouponDTO } from '../dto';
+import { AppConflictError } from '../../../errors';
 
 @injectable()
 export class CreateCouponUseCase implements UseCase<CouponProps, Coupon> {
@@ -24,10 +25,18 @@ export class CreateCouponUseCase implements UseCase<CouponProps, Coupon> {
       valid_until: dto.valid_until,
     });
 
+    await this.validate(coupon);
+
     return this.repository.create(coupon);
   }
 
-  private async validate(dto: CreateCouponDTO) {
-    return null;
+  private async validate(coupon: Coupon) {
+    const couponAlreadyExists = await this.repository.exists({
+      code: coupon.code.getValue(),
+    });
+
+    if (couponAlreadyExists) {
+      throw new AppConflictError(Errors.COUPON_CODE_ALREADY_EXISTS);
+    }
   }
 }

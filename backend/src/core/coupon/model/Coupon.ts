@@ -74,4 +74,23 @@ export class Coupon extends Entity<CouponProps> {
       deletedAt: deletedAt,
     });
   }
+
+  copyWith(props: Partial<CouponProps>) {
+    const coupon = new Coupon({
+      id: props.id ?? this.id,
+      code: props.code ?? this.code.getValue(),
+      type: props.type ?? this.type.value,
+      value: props.value ?? this.value.getValue(),
+      one_shot: props.one_shot ?? this.one_shot,
+      max_uses: props.max_uses ?? this.max_uses,
+      uses_count: props.uses_count ?? this.uses_count,
+      valid_from: props.valid_from ?? this.valid_from,
+      valid_until: props.valid_until ?? this.valid_until,
+      createdAt: props.createdAt ?? this.createdAt,
+      updatedAt: props.updatedAt ?? this.updatedAt,
+      deletedAt: props.deletedAt ?? this.deletedAt,
+    });
+
+    return coupon;
+  }
 }

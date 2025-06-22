@@ -29,8 +29,6 @@ export class UpdateProductUseCase
 
     await this.validationService.validate(product);
 
-    await this.repository.update(product);
-
-    return product;
+    return this.repository.update(product);
   }
 }

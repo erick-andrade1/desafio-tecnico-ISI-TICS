@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Controller, CreateProductUseCase } from '../../core';
 
 import { CreateProductSchemaValidator } from '../../external/validators';
+import { createProductList } from '../../factories';
 
 @injectable()
 export class CreateProductController implements Controller {
@@ -15,6 +16,6 @@ export class CreateProductController implements Controller {
     const data = CreateProductSchemaValidator.parse(req.body);
 
     const result = await this.useCase.execute(data);
-    return res.json(result);
+    return res.json(createProductList(result));
   }
 }

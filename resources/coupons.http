@@ -1,0 +1,43 @@
+## URL BASE PARA ACESSO A CUPONS
+@baseUrl = http://localhost:8000/api/coupons
+
+### LISTAR TODOS OS CUPONS
+GET {{baseUrl}}/ HTTP/1.1
+
+### PAGINAR CUPONS
+GET {{baseUrl}}/paginate HTTP/1.1
+
+### CONSULTAR CUPOM POR CÓDIGO
+GET {{baseUrl}}/PROMO10 HTTP/1.1
+
+### CRIAR CUPOM
+POST {{baseUrl}}/ HTTP/1.1
+content-type: application/json
+
+{
+  "code": "PROMO10",
+  "type": "percent",
+  "value": 15,
+  "one_shot": false,
+  "max_uses": 100,
+  "uses_count": 0,
+  "valid_from": "2025-06-01T00:00:00.000Z",
+  "valid_until": "2025-12-31T23:59:59.999Z"
+}
+
+### ATUALIZAR CUPOM
+PUT {{baseUrl}}/PROMO10 HTTP/1.1
+content-type: application/json
+
+{
+  "type": "fixed",
+  "value": 15,
+  "one_shot": true,
+  "max_uses": 50,
+  "uses_count": 10,
+  "valid_from": "2025-07-01T00:00:00.000Z",
+  "valid_until": "2025-12-31T23:59:59.999Z"
+}
+
+### REMOVER CUPOM
+DELETE {{baseUrl}}/PROMO10 HTTP/1.1

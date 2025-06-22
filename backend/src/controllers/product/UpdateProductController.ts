@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Controller, UpdateProductUseCase } from '../../core';
 
 import { UpdateProductSchemaValidator } from '../../external/validators';
+import { createProductList } from '../../factories';
 
 @injectable()
 export class UpdateProductController implements Controller {
@@ -19,6 +20,6 @@ export class UpdateProductController implements Controller {
       id: Number(req.params.id),
     });
 
-    return res.json(result);
+    return res.json(createProductList(result));
   }
 }

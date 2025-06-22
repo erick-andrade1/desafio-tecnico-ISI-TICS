@@ -31,12 +31,13 @@ export class ProductPrismaRepository implements ProductRepository {
   ): Promise<ResultPaginate<Product>> {
     const where = this.buildFilter(filter.filter ?? {});
     const orderBy = this.buildOrderBy(filter.filter ?? {});
+
     const [count, items] = await prisma.$transaction([
       prisma.product.count({ where }),
       prisma.product.findMany({
         where,
         take: filter.limit,
-        skip: filter.limit * filter.page,
+        skip: filter.limit * (filter.page - 1),
         orderBy: orderBy,
       }),
     ]);
@@ -86,18 +87,14 @@ export class ProductPrismaRepository implements ProductRepository {
     application: ProductCouponApplication,
     coupon: Coupon,
   ): Promise<Product> {
+    const newProduct = ProductConverter.toDb(product);
     const newApplication = ProductCouponApplicationConverter.toDb(application);
     const newCoupon = CouponConverter.toDb(coupon);
 
     const [updatedProduct] = await prisma.$transaction([
       prisma.product.update({
         where: { id: product.id! },
-        data: {
-          discount_applied_at: null,
-          discount_type: null,
-          discount_value: null,
-          hasCouponApplied: false,
-        },
+        data: newProduct,
       }),
       prisma.coupon.update({
         where: { id: newCoupon.id! },
@@ -124,30 +121,36 @@ export class ProductPrismaRepository implements ProductRepository {
     return ProductConverter.fromDb(created);
   }
 
-  async update(product: Product): Promise<void> {
+  async update(product: Product): Promise<Product> {
     const data = ProductConverter.toDb(product);
-    await prisma.product.update({
+    const updated = await prisma.product.update({
       where: { id: Number(product.id) },
       data,
     });
+
+    return ProductConverter.fromDb(updated);
   }
 
-  async deactivate(id: number): Promise<void> {
-    await prisma.product.update({
+  async deactivate(id: number): Promise<Product> {
+    const deactivated = await prisma.product.update({
       where: { id },
       data: {
         deleted_at: new Date(),
       },
     });
+
+    return ProductConverter.fromDb(deactivated);
   }
 
-  async activate(id: number): Promise<void> {
-    await prisma.product.update({
+  async activate(id: number): Promise<Product> {
+    const activated = await prisma.product.update({
       where: { id },
       data: {
         deleted_at: null,
       },
     });
+
+    return ProductConverter.fromDb(activated);
   }
 
   async findOneByFilter(filter: FilterProduct): Promise<Product | null> {
@@ -187,7 +190,9 @@ export class ProductPrismaRepository implements ProductRepository {
 
     if (filter.name) {
       andConditions.push({
-        name: filter.name,
+        name: {
+          contains: filter.name.trim(),
+        },
       });
     }
 
@@ -255,6 +260,14 @@ export class ProductPrismaRepository implements ProductRepository {
       andConditions.push({
         couponApplications: {
           none: {},
+        },
+      });
+    }
+
+    if (filter.idNotEquals) {
+      andConditions.push({
+        id: {
+          not: filter.idNotEquals,
         },
       });
     }

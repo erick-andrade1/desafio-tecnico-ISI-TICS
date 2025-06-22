@@ -1,3 +1,5 @@
+import { AppValidationError } from '../../../errors';
+
 export class CouponType {
   static PERCENT = 'percent';
   static FIXED = 'fixed';
@@ -6,7 +8,7 @@ export class CouponType {
 
   constructor(readonly value: string) {
     if (!CouponType.values.includes(value)) {
-      throw new Error(`O tipo de cupom '${value}' é inválido!`);
+      throw new AppValidationError(`O tipo de cupom '${value}' é inválido!`);
     }
   }
 }

@@ -4,10 +4,11 @@ import { UseCase } from '../../shared/UseCase';
 import { FindProductByIdService } from '../service/FindProductByIdService';
 import { ApplyPercentDiscountToProductDTO } from '../dto';
 import { CouponType } from '../../coupon';
+import { Product } from '../model';
 
 @injectable()
 export class ApplyPercentDiscountToProductUseCase
-  implements UseCase<ApplyPercentDiscountToProductDTO, void>
+  implements UseCase<ApplyPercentDiscountToProductDTO, Product>
 {
   constructor(
     @inject(ProductRepository)
@@ -16,7 +17,7 @@ export class ApplyPercentDiscountToProductUseCase
     private readonly findProductByIdService: FindProductByIdService,
   ) {}
 
-  async execute(dto: ApplyPercentDiscountToProductDTO): Promise<void> {
+  async execute(dto: ApplyPercentDiscountToProductDTO): Promise<Product> {
     const product = await this.findProductByIdService.execute(dto.productId);
 
     const updatedProduct = product.validateDiscountApplyance(
@@ -24,6 +25,6 @@ export class ApplyPercentDiscountToProductUseCase
       CouponType.PERCENT,
     );
 
-    await this.repository.update(updatedProduct);
+    return this.repository.update(updatedProduct);
   }
 }

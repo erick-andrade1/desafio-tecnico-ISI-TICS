@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import { Controller, FindProductByIdUseCase } from '../../core';
 
 import { inject, injectable } from 'inversify';
-
+import { createProductList } from '../../factories';
 @injectable()
 export class FindProductByIdController implements Controller {
   constructor(
@@ -12,6 +12,6 @@ export class FindProductByIdController implements Controller {
 
   async execute(req: Request, res: Response) {
     const result = await this.useCase.execute(Number(req.params.id));
-    return res.json(result);
+    return res.json(createProductList(result));
   }
 }

@@ -3,13 +3,13 @@ import { ProductRepository } from '../provider/ProductRepository';
 import { UseCase } from '../../shared/UseCase';
 import { FindProductByIdService } from '../service/FindProductByIdService';
 import { ApplyCouponDiscountToProductDTO } from '../dto';
-import { Coupon, FindCouponByCodeService } from '../../coupon';
+import { FindCouponByCodeService } from '../../coupon';
 import { Product } from '../model';
 import {
   ProductCouponApplication,
   FindAllApplicationsService,
 } from '../../productCouponApplication';
-import { AppValidationError } from '../../../errors';
+import { AppConflictError } from '../../../errors';
 import { Errors } from '../../shared';
 
 @injectable()
@@ -44,7 +44,7 @@ export class ApplyCouponDiscountToProductUseCase
       (coupon.one_shot && couponApplications.length > 0) ||
       hasActiveApplication
     ) {
-      throw new AppValidationError(Errors.COUPON_USE_NOT_PERMITED);
+      throw new AppConflictError(Errors.COUPON_USE_NOT_PERMITED);
     }
 
     const updatedCouponUse = coupon.useCoupon();

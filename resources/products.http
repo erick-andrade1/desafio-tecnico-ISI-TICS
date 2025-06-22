@@ -1,0 +1,56 @@
+## URL BASE PARA ACESSO A PRODUTOS
+@baseUrl = http://localhost:8000/api/products
+
+### LISTAR (com query string para filtros)
+GET {{baseUrl}}/?page=1 HTTP/1.1
+
+### CONSULTAR PRODUTO POR ID
+GET {{baseUrl}}/2 HTTP/1.1
+
+### CRIAR PRODUTO
+POST {{baseUrl}}/ HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Farinha láctea",
+  "description": "",
+  "price": 5.49,
+  "stock": 150
+}
+
+### ATUALIZAR PRODUTO
+PATCH {{baseUrl}}/3 HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Farinha láctea",
+  "description": "Muito bom, muito gostoso.",
+  "price": 10,
+  "stock": 2
+}
+
+### DESATIVAR PRODUTO
+DELETE {{baseUrl}}/3 HTTP/1.1
+
+### RESTAURAR PRODUTO INATIVO
+POST {{baseUrl}}/3/restore HTTP/1.1
+
+### APLICAR DESCONTO POR PORCENTAGEM
+POST {{baseUrl}}/3/discount/percent HTTP/1.1
+content-type: application/json
+
+{
+  "discountValue": 10
+}
+
+### APLICAR DESCONTO POR CUPOM
+POST {{baseUrl}}/1/discount/coupon HTTP/1.1
+content-type: application/json
+
+{
+  "code": "PROMO10"
+}
+
+### REMOVER DESCONTO DO PRODUTO
+DELETE {{baseUrl}}/1/discount HTTP/1.1
+

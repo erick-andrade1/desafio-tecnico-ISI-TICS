@@ -20,7 +20,7 @@ export class ProductName {
       throw new AppValidationError('O nome deve ter no máximo 100 caracteres.');
     }
 
-    const validRegex = /^[a-zA-Z0-9\s\-_,.]+$/;
+    const validRegex = /^[\p{L}0-9\s\-_,.]+$/u;
     if (!validRegex.test(trimmed)) {
       throw new AppValidationError(
         'O nome contém caracteres inválidos. Permitidos: letras, números, espaços, hífens, vírgulas, pontos e sublinhados.',

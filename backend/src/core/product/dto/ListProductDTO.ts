@@ -12,4 +12,5 @@ export interface ListProductDTO {
   hasCouponApplied: boolean;
   createdAt: Date;
   updatedAt: Date;
+  deletedAt?: Date | null;
 }

@@ -12,20 +12,10 @@ export class ResultPaginate<T = any> {
   constructor(page: number, limit: number, count: number, data: T[]) {
     this.data = data;
     this.meta = {
-      page: page + 1,
+      page: page === 0 ? page + 1 : page,
       limit: limit,
       totalItems: count,
       totalPages: Math.ceil(count / limit),
     };
-  }
-
-  map<NewType>(mapFn: (item: T) => NewType): ResultPaginate<NewType> {
-    const data = this.data.map(mapFn);
-    return new ResultPaginate<NewType>(
-      this.meta.page - 1,
-      this.meta.limit,
-      this.meta.totalItems,
-      data,
-    );
   }
 }

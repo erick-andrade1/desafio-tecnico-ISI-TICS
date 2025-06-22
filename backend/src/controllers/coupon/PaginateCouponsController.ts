@@ -19,6 +19,9 @@ export class PaginateCouponsController implements Controller {
     const result = await this.useCase.execute(
       new FilterPaginate(filter, page, limit),
     );
-    return res.json(result.map(createCouponList));
+    return res.json({
+      meta: result.meta,
+      data: result.data.map(createCouponList),
+    });
   }
 }

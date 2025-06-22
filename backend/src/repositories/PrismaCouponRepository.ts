@@ -42,7 +42,7 @@ export class CouponPrismaRepository implements CouponRepository {
 
   async findByCode(code: string): Promise<Coupon | null> {
     const coupon = await prisma.coupon.findUnique({
-      where: { code: code },
+      where: { code: code.toLowerCase().trim() },
     });
     return coupon ? CouponConverter.fromDb(coupon) : null;
   }
@@ -63,7 +63,7 @@ export class CouponPrismaRepository implements CouponRepository {
 
   async delete(code: string): Promise<void> {
     await prisma.coupon.update({
-      where: { code: code },
+      where: { code: code.toLowerCase().trim() },
       data: {
         deleted_at: new Date(),
       },
@@ -90,13 +90,13 @@ export class CouponPrismaRepository implements CouponRepository {
 
     if (filter.code) {
       andConditions.push({
-        code: filter.code,
+        code: filter.code.toLowerCase().trim(),
       });
     }
 
     if (filter.type) {
       andConditions.push({
-        type: filter.type,
+        type: filter.type.toLowerCase().trim(),
       });
     }
 

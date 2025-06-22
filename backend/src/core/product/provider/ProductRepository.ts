@@ -13,9 +13,9 @@ export abstract class ProductRepository {
   ): Promise<ResultPaginate<Product>>;
   abstract findById(id: number): Promise<Product | null>;
   abstract create(product: Product): Promise<Product>;
-  abstract update(product: Product): Promise<void>;
-  abstract deactivate(id: number): Promise<void>;
-  abstract activate(id: number): Promise<void>;
+  abstract update(product: Product): Promise<Product>;
+  abstract deactivate(id: number): Promise<Product>;
+  abstract activate(id: number): Promise<Product>;
   abstract findOneByFilter(filter: FilterProduct): Promise<Product | null>;
   abstract exists(filter: FilterProduct): Promise<boolean>;
   abstract removeProductDiscountWithCoupon(id: number): Promise<Product>;
