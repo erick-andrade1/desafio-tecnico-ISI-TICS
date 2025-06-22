@@ -3,7 +3,7 @@ import { ProductRepository } from '../provider/ProductRepository';
 import { UseCase } from '../../shared/UseCase';
 import { FindProductByIdService } from '../service/FindProductByIdService';
 import { ApplyCouponDiscountToProductDTO } from '../dto';
-import { CouponType, FindCouponByCodeService } from '../../coupon';
+import { Coupon, FindCouponByCodeService } from '../../coupon';
 import { Product } from '../model';
 import {
   ProductCouponApplication,
@@ -36,7 +36,6 @@ export class ApplyCouponDiscountToProductUseCase
     const productApplications = await this.findAllApplicationsService.execute({
       productId: product.id,
     });
-
     const hasActiveApplication = productApplications.some(
       (application) => !application.removed_at,
     );

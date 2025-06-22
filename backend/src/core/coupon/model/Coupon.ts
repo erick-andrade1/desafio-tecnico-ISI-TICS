@@ -1,4 +1,4 @@
-import AppError from 'errors/AppError';
+import AppError from '../../../errors/AppError';
 import { AppValidationError } from '../../../errors';
 import { Entity, EntityProps, Errors } from '../../shared';
 import { CouponType, CouponCode, CouponValue } from '../vo';
@@ -62,8 +62,16 @@ export class Coupon extends Entity<CouponProps> {
   public useCoupon(): Coupon {
     this.isCouponValid();
 
+    let uses_count = this.uses_count + 1;
+    let deletedAt: any = null;
+
+    if (this.max_uses === uses_count || this.one_shot) {
+      deletedAt = new Date();
+    }
+
     return this.copyWith({
-      uses_count: this.uses_count + 1,
+      uses_count: uses_count,
+      deletedAt: deletedAt,
     });
   }
 }
