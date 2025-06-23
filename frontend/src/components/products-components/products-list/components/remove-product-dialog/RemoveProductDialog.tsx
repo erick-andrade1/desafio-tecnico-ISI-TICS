@@ -73,7 +73,7 @@ export function RemoveProductDialog({ productId }: IProps) {
             variant={'destructive'}
             onClick={deactivateProduct}
           >
-            Remover
+            Desativar
           </Button>
         </DialogFooter>
       </DialogContent>

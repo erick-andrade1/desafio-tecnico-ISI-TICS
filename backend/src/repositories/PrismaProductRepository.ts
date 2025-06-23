@@ -269,13 +269,7 @@ export class ProductPrismaRepository implements ProductRepository {
       });
     }
 
-    if (filter.includeDeleted === true) {
-      andConditions.push({
-        NOT: {
-          deleted_at: null,
-        },
-      });
-    } else {
+    if (!filter.includeDeleted) {
       andConditions.push({
         deleted_at: null,
       });

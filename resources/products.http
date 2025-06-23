@@ -16,7 +16,7 @@
 #  withCouponApplied?: boolean | null;
 
 ### LISTAR (com query string para filtros)
-GET {{baseUrl}}/?page=1&search=gas HTTP/1.1
+GET {{baseUrl}}/?page=1&includeDeleted=false HTTP/1.1
 
 ### CONSULTAR PRODUTO POR ID
 GET {{baseUrl}}/2 HTTP/1.1
