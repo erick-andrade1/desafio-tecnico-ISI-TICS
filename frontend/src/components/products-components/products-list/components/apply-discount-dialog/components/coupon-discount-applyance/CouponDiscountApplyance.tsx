@@ -4,6 +4,7 @@ import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import { Suspense } from 'react';
 
 import { errorToast } from '@/utils';
 import {
@@ -42,7 +43,7 @@ export function CouponDiscountApplyance({
     },
   });
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['paginate-coupons', 1, 6],
     queryFn: () => couponService.paginate(1, 6),
   });
@@ -95,18 +96,15 @@ export function CouponDiscountApplyance({
           )}
         />
 
-        {isLoading ? (
-          <Loader2 className='h-8 w-8 animate-spin' />
-        ) : (
-          data &&
-          data.data && (
+        <Suspense fallback={<Loader2 className='h-8 w-8 animate-spin' />}>
+          {data && data.data && (
             <CouponsAvailableList
               coupons={data.data}
               handleCouponSelection={handleCouponSelection}
               currentCoupon={form.watch('code')}
             />
-          )
-        )}
+          )}
+        </Suspense>
 
         <DialogFooter className='pt-4'>
           <DialogClose asChild>

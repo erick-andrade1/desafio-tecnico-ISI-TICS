@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { productService } from '@/services/product.service';
@@ -23,7 +23,7 @@ export function Products() {
     });
   };
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['paginate-products', page, 10, filters],
     queryFn: () => productService.paginate(page, 10, filters),
   });
@@ -34,12 +34,14 @@ export function Products() {
 
       <ProductsFilter handleFilters={handleFilters} />
 
-      {isLoading ? (
-        <div className='flex items-center justify-center mt-16'>
-          <Loader2 className='h-8 w-8 animate-spin' />
-        </div>
-      ) : (
-        data && (
+      <Suspense
+        fallback={
+          <div className='flex items-center justify-center mt-16'>
+            <Loader2 className='h-8 w-8 animate-spin' />
+          </div>
+        }
+      >
+        {data && (
           <div className='bg-white flex flex-col gap-4 pb-2'>
             <ProductsList data={data.data} />
             <ProductsPagination
@@ -48,8 +50,8 @@ export function Products() {
               totalPages={data.meta.totalPages}
             />
           </div>
-        )
-      )}
+        )}
+      </Suspense>
     </div>
   );
 }
