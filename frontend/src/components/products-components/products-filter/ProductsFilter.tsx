@@ -102,9 +102,19 @@ export function ProductsFilter({ handleFilters }: IProps) {
             </div>
 
             <div className='flex items-center'>
-              <Button type='submit' className='whitespace-nowrap'>
-                Filtrar
-              </Button>
+              {!form.getValues('minPrice') && !form.getValues('maxPrice') ? (
+                <Button type='submit'>Filtrar</Button>
+              ) : (
+                <Button
+                  type='button'
+                  variant={'outline'}
+                  className='text-[#64748b]'
+                  onClick={() => form.reset()}
+                >
+                  <span className='material-symbols-outlined'>cached</span>
+                  Limpar filtros
+                </Button>
+              )}
             </div>
           </div>
 
