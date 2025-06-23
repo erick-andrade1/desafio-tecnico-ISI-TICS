@@ -35,6 +35,7 @@ Este projeto é o frontend da aplicação, desenvolvido utilizando **React**, co
 
 ## Organização e arquitetura do projeto
 
+```plaintext
 frontend/
 ├── public/ # Arquivos públicos acessíveis diretamente, como imagens estáticas, favicon, etc.
 ├── src/ # Código-fonte principal da aplicação
@@ -56,6 +57,7 @@ frontend/
 ├── eslint.config.js # Configuração do ESLint para padronização de código
 ├── tailwind.config.ts # Padronização de variáveis do tailwind para facilitar o uso
 └── index.html # HTML principal servido pela aplicação
+```
 
 ## Scripts Disponíveis
 

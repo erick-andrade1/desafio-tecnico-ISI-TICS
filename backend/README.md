@@ -46,6 +46,7 @@ Este projeto é uma API desenvolvida com Node.js, Express e TypeScript, seguindo
 
 Como foi dito anteriormente o projeto se baseia nos princípios do Clean Code com arquitetura hexagonal, tendo isso em vista podemos adiantar que a pasta Core é onde está a parte mais importante do sistema, contendo regras de negócio, casos de uso e afins.
 
+```plaintext
 backend/
 ├── prisma/ # Configurações e arquivos do Prisma ORM
 ├── src/
@@ -67,6 +68,7 @@ backend/
 │ ├── logger.ts # Configuração do sistema de logs
 │ └── routes.ts # Responsável pelo carregamento das rotas, que são lidas como arquivos .route e transformadas para uso do app
 └── .env.example # Exemplo de configuração de ambiente
+```
 
 ## Scripts Disponíveis
 
