@@ -1,13 +1,17 @@
 import { createBrowserRouter } from 'react-router';
 
 import { PATHS } from '@/utils';
-import { Layout } from '@/components';
+import { Layout, ErrorBoundary } from '@/components';
 import { Products, NotFound, CreateProduct, UpdateProduct } from '@/pages';
 
 export const routes = createBrowserRouter([
   {
     path: '/',
-    Component: Layout,
+    element: (
+      <ErrorBoundary>
+        <Layout />
+      </ErrorBoundary>
+    ),
     children: [
       { index: true, Component: Products },
       { path: PATHS.PRODUCTS.INDEX, Component: Products },
