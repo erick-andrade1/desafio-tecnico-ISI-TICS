@@ -26,10 +26,11 @@ export function Layout() {
         </div>
 
         <div
-          className={`
-            flex-1 transition-opacity duration-300
-            ${sidebarOpen ? 'bg-opacity-50' : 'bg-opacity-0'}
-            pointer-events-auto
+          className={` flex-1 transition-opacity duration-300 ${
+            sidebarOpen
+              ? 'bg-opacity-50 pointer-events-auto'
+              : 'bg-opacity-0 pointer-events-none'
+          }
           `}
           onClick={() => setSidebarOpen(false)}
         />

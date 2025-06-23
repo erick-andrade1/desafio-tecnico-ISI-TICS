@@ -98,7 +98,7 @@ export function UpdateProductForm({ product }: IProps) {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className=' space-y-6'>
-            <div className='flex gap-12'>
+            <div className='flex gap-6'>
               <FormField
                 control={form.control}
                 name='name'
@@ -139,7 +139,7 @@ export function UpdateProductForm({ product }: IProps) {
               )}
             />
 
-            <div className='flex gap-12'>
+            <div className='flex gap-6'>
               <FormField
                 control={form.control}
                 name='price'
