@@ -39,9 +39,7 @@ export function Products() {
           <Loader2 className='h-8 w-8 animate-spin' />
         </div>
       ) : (
-        data &&
-        data.meta &&
-        data.data.length > 0 && (
+        data && (
           <div className='bg-white flex flex-col gap-4 pb-2'>
             <ProductsList data={data.data} />
             <ProductsPagination
