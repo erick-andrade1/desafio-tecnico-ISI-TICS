@@ -63,3 +63,5 @@ localhost:8080
 ## Extra:
 
 Na pasta **`resources`** é possível utilizar e verificar todas as requisições e JSON utilizados na aplicação, porém para isso será necessário ter a extensão do VSCode conhecida como 🔗 [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client), ela permite fazer o uso dessas requisições diretamente no VSCode sem precisar fazer uso de postman. Essa é uma forma prática de documentar as requisições diretamente no projeto.
+
+É possível visualizar as tabelas do prisma utilizando o comando **`npx prisma studio`** no backend em um novo terminal aberto.
