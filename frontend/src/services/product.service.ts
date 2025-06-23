@@ -49,13 +49,19 @@ class ProductService {
     return api.post(`${baseURL}/${id}/restore`).then((res) => res.data);
   }
 
-  async applyPercentDiscount(id: number, discountValue: number) {
+  async applyPercentDiscount({
+    id,
+    discountValue,
+  }: {
+    id: number;
+    discountValue: number;
+  }) {
     return api
       .post(`${baseURL}/${id}/discount/percent`, { discountValue })
       .then((res) => res.data);
   }
 
-  async applyCouponDiscount(id: number, code: string) {
+  async applyCouponDiscount({ id, code }: { id: number; code: string }) {
     return api
       .post(`${baseURL}/${id}/discount/coupon`, { code })
       .then((res) => res.data);

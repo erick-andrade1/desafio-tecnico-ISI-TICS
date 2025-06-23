@@ -43,7 +43,7 @@ export class PaginateProductsUseCase
     return new ResultPaginate(
       result.meta.page,
       result.meta.limit,
-      result.data.length,
+      result.meta.totalItems,
       products,
     );
   }

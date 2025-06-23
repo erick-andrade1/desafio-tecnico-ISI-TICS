@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, useQuery } from '@tanstack/react-query';
 import { productService } from '@/services/product.service';
 import {
   PageHeader,
@@ -8,20 +8,31 @@ import {
   ProductsList,
   ProductsPagination,
 } from '@/components';
+import type { ProductsFilterSchema } from '@/schemas';
 
 export function Products() {
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({});
+  const queryClient = new QueryClient();
+
+  const handleFilters = (params: ProductsFilterSchema) => {
+    setFilters(params);
+
+    queryClient.invalidateQueries({
+      queryKey: ['paginate-products', 1, 10, params],
+    });
+  };
 
   const { data, isLoading } = useQuery({
-    queryKey: ['paginate-products', page],
-    queryFn: () => productService.paginate(page),
+    queryKey: ['paginate-products', page, 10, filters],
+    queryFn: () => productService.paginate(page, 10, filters),
   });
 
   return (
-    <div className='flex flex-col gap-12'>
+    <div className='flex flex-col gap-6'>
       <PageHeader icon='shopping_bag' title='Produtos' />
 
-      <ProductsFilter />
+      <ProductsFilter handleFilters={handleFilters} />
 
       {isLoading ? (
         <div className='flex items-center justify-center mt-16'>

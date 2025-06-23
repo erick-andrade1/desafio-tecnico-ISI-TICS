@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router';
+
 import {
   TableHeader,
   TableRow,
@@ -6,11 +8,13 @@ import {
   TableCell,
   Table,
 } from '@/components';
-import { ProductPrice } from './components';
 import type { IGetProduct } from '@/types';
+import {
+  RemoveProductDialog,
+  ApplyDiscountDialog,
+  ProductPrice,
+} from './components';
 
-import { RemoveProductDialog } from './components';
-import { useNavigate } from 'react-router';
 interface IProps {
   data: IGetProduct[];
 }
@@ -19,11 +23,11 @@ export function ProductsList({ data }: IProps) {
   const navigate = useNavigate();
 
   return (
-    <Table className='bg-white'>
+    <Table className='bg-white overflow-y-hidden'>
       <TableHeader>
         <TableRow className='p-20'>
           <TableHead>Nome</TableHead>
-          <TableHead>Descrição</TableHead>
+          <TableHead className='hidden md:flex'>Descrição</TableHead>
           <TableHead>Preço</TableHead>
           <TableHead className='text-center'>Estoque</TableHead>
           <TableHead className='text-center'>Ações</TableHead>
@@ -33,10 +37,10 @@ export function ProductsList({ data }: IProps) {
         {data.map((data) => (
           <TableRow key={data.id}>
             <TableCell className='font-medium'>{data.name}</TableCell>
-            <TableCell>
-              <p className='text-[#64748b] w-[200px] truncate'>
+            <TableCell className='hidden md:inline'>
+              <div className='text-[#64748b] w-[120px] truncate'>
                 {data.description ? data.description : 'N/A'}
-              </p>
+              </div>
             </TableCell>
             <TableCell>
               <ProductPrice
@@ -63,9 +67,9 @@ export function ProductsList({ data }: IProps) {
                 >
                   edit_square
                 </span>
-                <span className='material-symbols-outlined cursor-pointer text-[#64748b]'>
-                  attach_money
-                </span>
+
+                <ApplyDiscountDialog productId={data.id} />
+
                 <RemoveProductDialog productId={data.id} />
               </div>
             </TableCell>

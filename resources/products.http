@@ -26,7 +26,7 @@ POST {{baseUrl}}/ HTTP/1.1
 content-type: application/json
 
 {
-  "name": "Farinha láctea",
+  "name": "Teste",
   "description": "",
   "price": 5.49,
   "stock": 150

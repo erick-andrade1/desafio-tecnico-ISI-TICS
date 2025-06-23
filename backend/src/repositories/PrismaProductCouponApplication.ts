@@ -34,7 +34,7 @@ export class ProductCouponApplicationPrismaRepository
       prisma.productCouponApplication.findMany({
         where,
         take: filter.limit,
-        skip: filter.limit * filter.page,
+        skip: filter.limit * (filter.page - 1),
       }),
     ]);
 

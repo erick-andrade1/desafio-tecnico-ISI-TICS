@@ -15,9 +15,9 @@ POST {{baseUrl}}/ HTTP/1.1
 content-type: application/json
 
 {
-  "code": "PROMO10",
+  "code": "SAVE40",
   "type": "percent",
-  "value": 15,
+  "value": 40,
   "one_shot": false,
   "max_uses": 100,
   "uses_count": 0,

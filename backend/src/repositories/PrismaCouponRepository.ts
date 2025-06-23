@@ -28,7 +28,7 @@ export class CouponPrismaRepository implements CouponRepository {
       prisma.coupon.findMany({
         where,
         take: filter.limit,
-        skip: filter.limit * filter.page,
+        skip: filter.limit * (filter.page - 1),
       }),
     ]);
 
@@ -97,6 +97,12 @@ export class CouponPrismaRepository implements CouponRepository {
     if (filter.type) {
       andConditions.push({
         type: filter.type.toLowerCase().trim(),
+      });
+    }
+
+    if (!filter.includeDeleted) {
+      andConditions.push({
+        deleted_at: null,
       });
     }
 

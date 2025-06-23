@@ -7,9 +7,13 @@ import { PageHeader, UpdateProductForm } from '@/components';
 
 export function UpdateProduct() {
   const { id } = useParams();
+
   const { data, isLoading } = useQuery({
-    queryKey: ['get-product-by-id'],
+    queryKey: ['get-product-by-id', id],
     queryFn: async () => await productService.getById(id! as unknown as number),
+    retry: 1,
+    refetchOnMount: 'always',
+    enabled: !!id,
   });
 
   return (

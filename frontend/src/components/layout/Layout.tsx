@@ -6,10 +6,10 @@ export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className='flex min-h-screen w-full relative'>
-      <div className='hidden md:block'>
+    <div className='min-h-screen flex bg-[#F8FBFD]'>
+      <aside className='hidden md:block fixed top-0 left-0 w-64 h-screen bg-white shadow-md border-r border-[#f1f5f9] z-30'>
         <Sider />
-      </div>
+      </aside>
 
       <div
         className={`fixed inset-0 z-40 flex md:hidden pointer-events-none`}
@@ -36,11 +36,11 @@ export function Layout() {
         />
       </div>
 
-      <div className='flex flex-col w-full'>
+      <div className='flex flex-col flex-1 min-w-0 md:ml-64'>
         <Navbar onMenuClick={() => setSidebarOpen(true)} />
-        <div className='flex-1 w-full bg-[#F8FBFD] overflow-auto px-4 md:px-14 py-12'>
+        <main className='flex-1 overflow-auto px-4 md:px-14 py-12'>
           <Outlet />
-        </div>
+        </main>
       </div>
     </div>
   );
