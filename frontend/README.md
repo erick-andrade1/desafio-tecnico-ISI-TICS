@@ -1,4 +1,4 @@
-# Frontend - Projeto React + Vite + TypeScript
+# Frontend - Desafio Técnico ISI TICS
 
 Este projeto é o frontend da aplicação, desenvolvido utilizando **React**, com foco em desempenho e modernidade, utilizando o bundler **Vite** e a linguagem **TypeScript** para garantir maior segurança e produtividade.
 
