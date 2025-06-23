@@ -74,47 +74,58 @@ backend/
 
 Abaixo estão os scripts configurados para facilitar o desenvolvimento e o gerenciamento do banco de dados:
 
+- **`npm start`**  
+  Inicia o servidor backend com `ts-node-dev`, monitorando alterações no código e reiniciando automaticamente. Usa `--transpile-only` para acelerar a execução.
+
+- **`npm run start:backend`**  
+  Executa diretamente o servidor Express com TypeScript via `ts-node-dev`, ignorando a pasta `node_modules`.
+
+- **`npm run db:reset`**  
+  Reseta completamente o banco de dados, removendo e reaplicando todas as migrations com `prisma migrate reset`. Útil para recomeçar do zero durante o desenvolvimento.
+
+- **`npm run db:rebuild`**  
+  Reaplica todas as migrations com `prisma migrate dev`, sincronizando o banco com o schema atual.
+
+- **`npm run tsc`**  
+  Compila o projeto TypeScript para JavaScript, gerando os arquivos `.js` na pasta configurada.
+
+- **`npm run tsc:check`**  
+  Executa o verificador de tipos TypeScript (`tsc --noEmit`) sem gerar arquivos. Usa `--skipLibCheck` para ignorar verificação de bibliotecas externas e melhorar a performance.
+
+## Como rodar o projeto
+
+✅ Requisitos
+
+- Node.js 18+
+- npm
+- Banco de dados configurado (via DATABASE_URL no .env)
+- Prisma instalado localmente (npx prisma)
+
+Siga os passos abaixo para configurar e iniciar o servidor:
+
+1. Copie o arquivo `.env.example` para `.env`:
+
+```bash
+cp .env.example .env
+```
+
+2. Após isso instale as dependências do projeto:
+
+```bash
+npm install
+```
+
+3. Gere os arquivos do Prisma Client com base no schema:
+
+```bash
+npx prisma generate
+```
+
+4. Execute o servidor na porta padrão 8000 (ou na porta que preferir modificando no `.env`):
+
 ```bash
 npm start
 ```
-
-Executa o script start:backend. Inicia a aplicação backend com ts-node-dev, que reinicia automaticamente a aplicação ao detectar alterações no código. Utiliza transpile-only para agilizar o processo.
-
-```bash
-npm run start:backend
-```
-
-Executa diretamente o servidor Express com TypeScript utilizando ts-node-dev, ignorando alterações na pasta node_modules.
-
-```bash
-npm run db:reset
-```
-
-Reseta o banco de dados, revertendo todas as migrations e reaplicando-as. Útil para reiniciar o estado do banco durante o desenvolvimento. Usa o comando do Prisma migrate reset.
-
-```bash
-npm run db:migrate
-```
-
-Inicializa o sistema de migrations do Prisma. Deve ser rodado na primeira vez que o projeto for configurado para criar a pasta de migrations.
-
-```bash
-npm run db:rebuild
-```
-
-Executa o comando prisma migrate dev rebuild, que reaplica as migrations e sincroniza o banco de dados, útil para reconstruir o banco com as últimas alterações no schema.
-
-```bash
-npm run tsc
-```
-
-Executa o compilador TypeScript para compilar o código no modo padrão, gerando os arquivos .js na pasta de saída configurada.
-
-```bash
-npm run tsc:check
-```
-
-Roda o compilador TypeScript em modo de verificação (--noEmit), sem gerar arquivos, apenas para checar se existem erros de tipagem e sintaxe. Usa a flag --skipLibCheck para ignorar checagem de bibliotecas de terceiros, acelerando o processo.
 
 ### Considerações finais:
 

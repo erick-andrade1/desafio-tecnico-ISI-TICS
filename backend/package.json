@@ -6,7 +6,6 @@
     "start": "npm run start:backend",
     "start:backend": "ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts",
     "db:reset": "npx prisma migrate reset",
-    "db:migrate": "npx prisma migrate init",
     "db:rebuild": "npx prisma migrate dev rebuild",
     "tsc": "tsc",
     "tsc:check": "npm run tsc -- --noEmit --skipLibCheck",

@@ -77,7 +77,17 @@ frontend/
 
 ## Como rodar localmente
 
-1. Clone este repositório e acesse a pasta do frontend.
+✅ Requisitos
+
+- Node.js 18+
+- npm
+- Backend em execução (para consumo da API)
+
+1. Copie o arquivo `.env.example` para `.env`:
+
+```bash
+cp .env.example .env
+```
 
 2. Instale as dependências:
 
