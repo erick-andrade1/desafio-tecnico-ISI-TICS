@@ -149,11 +149,7 @@ export function UpdateProductForm({ product }: IProps) {
                       Preço <span className='text-red-600'>*</span>
                     </FormLabel>
                     <FormControl>
-                      <CurrencyInput
-                        placeholder='Insira o preço do produto'
-                        name='price'
-                        control={form.control}
-                      />
+                      <CurrencyInput name='price' control={form.control} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
